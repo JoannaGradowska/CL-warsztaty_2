@@ -14,8 +14,8 @@ def connecting():
         return cursor
 
 
-example = User()
-example.username = "example_name"
-example.email = "example@mail.pl"
-example.set_password("example_password")
-example.save_to_db(connecting())
+# example = User()
+# example.username = "example_name"
+# example.email = "example@mail.pl"
+# example.set_password("example_password")
+# example.save_to_db(connecting())
