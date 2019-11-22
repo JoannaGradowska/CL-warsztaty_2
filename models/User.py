@@ -1,5 +1,6 @@
 from hash import password_hash
 
+
 class User(object):
     __id = None
     username = None
@@ -67,3 +68,9 @@ class User(object):
             loaded_user.__hashed_password = row[3]
             ret.append(loaded_user)
         return ret
+
+    def delete(self, cursor):
+        sql = "DELETE FROM Users WHERE id=%s"
+        cursor.execute(sql, (self.__id,))
+        self.__id = -1
+        return True
