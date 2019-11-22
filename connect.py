@@ -13,7 +13,6 @@ def connecting():
         cursor = cnx.cursor()
         return cursor
 
-
 # example = User()
 # example.username = "example_name"
 # example.email = "example@mail.pl"
