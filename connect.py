@@ -20,10 +20,10 @@ cur = connecting()
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument('-u', '--username', help='User login, mail')
+parser.add_argument('-u', '--username', help='User login, email')
 parser.add_argument('-p', '--password', help='User password, min. 8 characters')
 parser.add_argument('-n', '--new-pass', help='New user password, min. 8 characters')
-parser.add_argument('-l', '--list', help='List evert user', action="store_true")
+parser.add_argument('-l', '--list', help='List every user', action="store_true")
 parser.add_argument('-d', '--delete', help='User login to delete', action="store_true")
 parser.add_argument('-e', '--edit', help='User login to edit', action="store_true")
 
@@ -74,3 +74,5 @@ elif args.username is not None and args.password is not None:
 
     else:
         print("I really don't know how did you get here")
+else:
+    parser.print_help()
