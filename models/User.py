@@ -57,7 +57,8 @@ class User(object):
 
     @staticmethod
     def load_all_users(cursor):
-        sql = "SELECT id, username, email, hashed_password FROM Users"
+        sql = "SELECT id, username, email FROM Users"
+        # , hashed_password
         ret = []
         cursor.execute(sql)
         for row in cursor.fetchall():
@@ -65,7 +66,7 @@ class User(object):
             loaded_user.__id = row[0]
             loaded_user.username = row[1]
             loaded_user.email = row[2]
-            loaded_user.__hashed_password = row[3]
+            # loaded_user.__hashed_password = row[3]
             ret.append(loaded_user)
         return ret
 
@@ -74,3 +75,18 @@ class User(object):
         cursor.execute(sql, (self.__id,))
         self.__id = -1
         return True
+
+    @staticmethod
+    def load_user_by_email(cursor, user_email):
+        sql = "SELECT id, username, email, hashed_password FROM users WHERE email=%s"
+        cursor.execute(sql, (user_email,))
+        data = cursor.fetchone()
+        if data:
+            loaded_user = User()
+            loaded_user.__id = data[0]
+            loaded_user.username = data[1]
+            loaded_user.email = data[2]
+            loaded_user.__hashed_password = data[3]
+            return loaded_user
+        else:
+            return None
