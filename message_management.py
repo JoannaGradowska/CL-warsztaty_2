@@ -1,6 +1,7 @@
 import argparse
 from hash import check_password
 from models.User import User
+from models.Message import Message
 from connect import connecting
 
 cur = connecting()
@@ -20,7 +21,12 @@ if args.list:
         user = User.load_user_by_email(cur, args.username)
         hashed = user.hashed_password
         if check_password(args.password, hashed):
-            #list every message from newest to oldest
-            pass
+            messages = Message.load_all_messages_for_user(cur, user.id)
+            if not messages:
+                print("There is no messages to this user")
+            else:
+                for message in messages:
+                    print(f"From:{User.load_user_by_id(cur, message.from_id).username}\n Date: {message.creation_date}\n Message: {message.text}")
+
         else:
             print("Password incorrect")

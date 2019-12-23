@@ -33,8 +33,8 @@ class Message:
             return None
 
     @staticmethod
-    def load_all_messages(cursor):
-        sql = "SELECT id, to_id, from_id, text, creation_date FROM messages"
+    def load_all_messages_for_user(cursor, user_id):
+        sql = f"SELECT id, to_id, from_id, text, creation_date FROM messages WHERE to_id={user_id}"
         ret = []
         cursor.execute(sql)
         for row in cursor.fetchall():
@@ -46,7 +46,3 @@ class Message:
             loaded_message.creation_date = row[4]
             ret.append(loaded_message)
         return ret
-
-    @staticmethod
-    def load_all_messages_for_user(cursor):
-        pass
