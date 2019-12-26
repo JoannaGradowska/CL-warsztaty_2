@@ -25,7 +25,7 @@ class Message:
             loaded_message = Message()
             loaded_message.__id = data[0]
             loaded_message.to_id = data[1]
-            loaded_message.from_id= data[2]
+            loaded_message.from_id = data[2]
             loaded_message.text = data[3]
             loaded_message.creation_date = data[4]
             return loaded_message
@@ -46,3 +46,10 @@ class Message:
             loaded_message.creation_date = row[4]
             ret.append(loaded_message)
         return ret
+
+    def save_to_db(self, cursor):
+        sql = """INSERT INTO Messages(to_id, from_id, text, creation_date)
+                 VALUES(%s, %s, %s, %s)"""
+        values = (self.to_id, self.from_id, self.text, self.creation_date)
+        cursor.execute(sql, values)
+        return True
