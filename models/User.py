@@ -43,7 +43,7 @@ class User:
     @staticmethod
     def load_user_by_id(cursor, user_id):
         sql = "SELECT id, username, email, hashed_password FROM users WHERE id=%s"
-        cursor.execute(sql, (user_id,))  # (user_id, ) - bo tworzymy krotkę
+        cursor.execute(sql, (user_id,))
         data = cursor.fetchone()
         if data:
             loaded_user = User()
@@ -54,27 +54,6 @@ class User:
             return loaded_user
         else:
             return None
-
-    @staticmethod
-    def load_all_users(cursor):
-        sql = "SELECT id, username, email FROM Users"
-        # , hashed_password
-        ret = []
-        cursor.execute(sql)
-        for row in cursor.fetchall():
-            loaded_user = User()
-            loaded_user.__id = row[0]
-            loaded_user.username = row[1]
-            loaded_user.email = row[2]
-            # loaded_user.__hashed_password = row[3]
-            ret.append(loaded_user)
-        return ret
-
-    def delete(self, cursor):
-        sql = "DELETE FROM Users WHERE id=%s"
-        cursor.execute(sql, (self.__id,))
-        self.__id = -1
-        return True
 
     @staticmethod
     def load_user_by_email(cursor, user_email):
@@ -91,32 +70,21 @@ class User:
         else:
             return None
 
-    # --- zmienić statyczną metodę żeby można było szukać po różnych danych ---
-    # @staticmethod
-    # def load_user_by(cursor, id=None, username=None, email=None):
-    #     where = ""
-    #     sql = f"SELECT id, username, email, hashed_password FROM users WHERE {where}"
-    #
-    #     if id is not None:
-    #         where = f"id={id}"
-    #         cursor.execute(sql, (user_email,))
-    #
-    #     elif username is not None:
-    #         where = f"username={username}"
-    #     elif email is not None:
-    #         where = f"email={email}"
-    #     else:
-    #         print("You didn't pick condition")
-    #
-    #     data = cursor.fetchone()
-    #     if data:
-    #         loaded_user = User()
-    #         loaded_user.__id = data[0]
-    #         loaded_user.username = data[1]
-    #         loaded_user.email = data[2]
-    #         loaded_user.__hashed_password = data[3]
-    #         return loaded_user
-    #     else:
-    #         return None
+    @staticmethod
+    def load_all_users(cursor):
+        sql = "SELECT id, username, email FROM Users"
+        all_users = []
+        cursor.execute(sql)
+        for row in cursor.fetchall():
+            loaded_user = User()
+            loaded_user.__id = row[0]
+            loaded_user.username = row[1]
+            loaded_user.email = row[2]
+            all_users.append(loaded_user)
+        return all_users
 
-
+    def delete(self, cursor):
+        sql = "DELETE FROM Users WHERE id=%s"
+        cursor.execute(sql, (self.__id,))
+        self.__id = -1
+        return True
